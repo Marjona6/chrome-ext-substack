@@ -7,10 +7,15 @@
     "48": "images/broom48.png",
     "128": "images/broom128.png"
   },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage"],
   "content_scripts": [
     {
-      "js": ["scripts/content/script.js"],
-      "matches": ["https://developer.chrome.com/docs/extensions/*", "https://developer.chrome.com/docs/webstore/*"]
+      "js": ["scripts/script.js"],
+      "matches": ["*://*.substack.com/*", "https://substack.com/*"],
+      "run_at": "document_end"
     }
   ]
 }
