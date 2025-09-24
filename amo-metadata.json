@@ -1,0 +1,12 @@
+{
+  "default_locale": "en-US",
+  "name": { "en-US": "Remove Substack Clutter" },
+  "summary": { "en-US": "Removes the right-hand sidebar clutter on Substack." },
+  "description": {
+    "en-US": "This extension hides the right-hand sidebar on substack.com to reduce distractions on the homepage and publication pages."
+  },
+  "categories": { "firefox": ["appearance"] },
+  "version": {
+    "license": "MIT"
+  }
+}
