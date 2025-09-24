@@ -17,5 +17,14 @@
       "matches": ["*://*.substack.com/*", "https://substack.com/*"],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "remove-substack-clutter@example.com",
+      "data_collection_permissions": {
+        "required": ["none"],
+        "optional": []
+      }
+    }
+  }
 }

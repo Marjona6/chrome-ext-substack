@@ -34,7 +34,7 @@ const storage = {
 };
 
 function getSidebar(root = document) {
-  return root.querySelector('[class^="exploreSidebar"], [class*=" exploreSidebar"]') || root;
+  return root.querySelector('[class^="exploreSidebar"], [class*=" exploreSidebar"]') || null;
 }
 
 function setHidden(el, hidden) {
@@ -55,9 +55,9 @@ function applyToggles(state, root = document) {
   const children = sidebar.children;
 
   // children[0] is search bar
-  const upNextEl = children[1];
-  const trendingEl = children[2];
-  const newBestsellersEl = children[3];
+  const upNextEl = children[1] || null;
+  const trendingEl = children[2] || null;
+  const newBestsellersEl = children[3] || null;
 
   setHidden(upNextEl, !!state[KEYS.upNext]);
   setHidden(trendingEl, !!state[KEYS.trending]);
@@ -65,7 +65,9 @@ function applyToggles(state, root = document) {
 }
 
 (async function init() {
+  let currentState;
   const state = await storage.get(Object.values(KEYS));
+  currentState = { ...state };
 
   applyToggles(state);
 
@@ -74,10 +76,20 @@ function applyToggles(state, root = document) {
     const relevant = Object.values(KEYS).some((k) => k in changes);
     if (!relevant) return;
 
-    const next = { ...state };
+    const next = { ...(currentState || {}) };
     for (const [k, v] of Object.entries(changes)) next[k] = v.newValue;
-    applyToggles(next);
+    currentState = next;
+    applyToggles(currentState);
   });
 
-  setTimeout(() => observer.disconnect(), 15000);
+  const body = document.body;
+  if (body) {
+    const observer = new MutationObserver(() => {
+      const sidebar = getSidebar();
+      if (!sidebar) return;
+      applyToggles(currentState || {});
+    });
+    observer.observe(body, { childList: true, subtree: true });
+    setTimeout(() => observer.disconnect(), 15000);
+  }
 })();
