@@ -1,7 +1,7 @@
 {
   "name": "Remove Substack Clutter",
   "description": "Remove the right-hand sidebar that clutters up your Substack homepage.",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 3,
   "icons": {
     "48": "images/broom48.png",

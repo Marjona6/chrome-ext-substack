@@ -82,14 +82,20 @@ function applyToggles(state, root = document) {
     applyToggles(currentState);
   });
 
+  const reapply = () => {
+    if (!currentState) return;
+    applyToggles(currentState);
+  };
+
   const body = document.body;
   if (body) {
     const observer = new MutationObserver(() => {
       const sidebar = getSidebar();
       if (!sidebar) return;
-      applyToggles(currentState || {});
+      reapply();
     });
     observer.observe(body, { childList: true, subtree: true });
-    setTimeout(() => observer.disconnect(), 15000);
   }
+
+  window.addEventListener("pageshow", reapply);
 })();
